@@ -1,0 +1,1 @@
+ /Users/jonathanbjerk/Documents/curve_clash_clutter/.dart_tool/flutter_build/01e00e4164a5cefa04a74dd1001f367e/native_assets.json: 
