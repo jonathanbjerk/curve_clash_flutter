@@ -1,0 +1,14 @@
+name: curve_clash
+description: A prototype of Curve Clash that starts directly in gameplay.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flame: ^1.17.0
+
+flutter:
+  uses-material-design: true
