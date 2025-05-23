@@ -1,0 +1,26 @@
+name: curve_clash_flutter
+description: Curve Clash – lokal flerspiller med kurve-slanger
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flame: ^1.10.0
+  flutter_svg: ^2.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/curve_clash_logo_offisiell.png
+    # - assets/starfield.png
