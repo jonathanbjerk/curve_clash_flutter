@@ -1,7 +1,7 @@
 name: curve_clash_flutter
-description: Curve Clash – lokal flerspiller med kurve-slanger
+description: A new Curve Clash game built with Flutter and Flame.
 publish_to: 'none'
-version: 1.0.0+1
+version: 0.1.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   flame: ^1.10.0
   flutter_svg: ^2.0.7
 
@@ -23,4 +22,4 @@ flutter:
 
   assets:
     - assets/curve_clash_logo_offisiell.png
-    # - assets/starfield.png
+    - assets/starfield.png
