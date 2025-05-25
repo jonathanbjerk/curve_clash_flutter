@@ -1,54 +1,45 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
-import 'components/starfield_background.dart';
-import 'components/wall_manager.dart';
+import 'package:flame/input.dart';
+import 'package:flame/extensions.dart';
 import 'managers/player_manager.dart';
 import 'managers/overlay_controller.dart';
 import 'managers/audio_manager.dart';
+import 'components/wall_manager.dart';
 
 class CurveClashGame extends FlameGame
     with HasCollisionDetection, HasKeyboardHandlerComponents {
   final OverlayController overlayController;
-  late final WallManager wallManager;
   late final PlayerManager playerManager;
+  late final WallManager wallManager;
 
   CurveClashGame({required this.overlayController});
 
   @override
   Future<void> onLoad() async {
-    camera.viewport = FixedResolutionViewport(Vector2(800, 600));
-
-    add(StarfieldBackground());
-
     wallManager = WallManager();
-    add(wallManager);
-
     playerManager = PlayerManager(this);
-    add(playerManager);
+    await add(wallManager);
+    await add(playerManager);
 
-    AudioManager.instance.initialize();
-
-    overlayController.showOverlay('start');
+    await AudioManager.instance.initialize();
+    overlayController.setGame(this);
+    overlayController.showOverlay('StartOverlay');
   }
 
   void startRound() {
-    overlayController.hideOverlay('countdown');
+    playerManager.activateAllSnakes();
+  }
+
+  void startCountdown() async {
+    await Future.delayed(Duration.zero); // 👈 sikrer riktig game.size
     playerManager.spawnPlayers();
+    overlayController.hideOverlay('StartOverlay');
+    overlayController.showOverlay('CountdownOverlay');
   }
 
-  void nextRound() {
+  void resetGame() {
     playerManager.removePlayers();
-    overlayController.showOverlay('start');
-  }
-
-  void returnToMenu() {
-    playerManager.removePlayers();
-    overlayController.showOverlay('start');
-  }
-
-  void showCountdown() {
-    overlayController.showOverlay('countdown');
+    overlayController.showOverlay('StartOverlay');
   }
 }

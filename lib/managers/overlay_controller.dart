@@ -1,33 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flame/game.dart';
-import 'package:curve_clash_flutter/curve_clash_game.dart';
-import 'package:curve_clash_flutter/overlays/start_overlay.dart';
-import 'package:curve_clash_flutter/overlays/countdown_overlay.dart';
-import 'package:curve_clash_flutter/overlays/pause_overlay.dart';
-import 'package:curve_clash_flutter/overlays/round_overlay.dart';
+import '../curve_clash_game.dart';
+import '../overlays/start_overlay.dart';
+import '../overlays/countdown_overlay.dart';
 
 class OverlayController {
-  final CurveClashGame Function() gameGetter;
+  late CurveClashGame _game;
 
-  OverlayController(this.gameGetter);
+  void setGame(CurveClashGame game) {
+    _game = game;
+  }
 
-  Map<String, Widget Function(BuildContext, Game)> get builderMap => {
-        'start': (_, game) => StartOverlay(game: game as CurveClashGame),
-        'countdown': (_, game) => CountdownOverlay(game: game as CurveClashGame),
-        'pause': (_, game) => PauseOverlay(game: game as CurveClashGame),
-        'round': (_, game) => RoundOverlay(game: game as CurveClashGame),
+  Map<String, Widget Function(BuildContext, CurveClashGame)> get builderMap => {
+        'StartOverlay': (context, game) => StartOverlay(game: game),
+        'CountdownOverlay': (context, game) => CountdownOverlay(game: game),
       };
 
-  List<String> get initialOverlays => ['start'];
+  void showOverlay(String name) {
+    _game.overlays.add(name);
+  }
 
-  void show(String overlay) => gameGetter().overlays.add(overlay);
-
-  void hide(String overlay) => gameGetter().overlays.remove(overlay);
-
-  void hideAll() => gameGetter().overlays.clear();
-
-  void showCountdown() {
-    hideAll();
-    show('countdown');
+  void hideOverlay(String name) {
+    _game.overlays.remove(name);
   }
 }

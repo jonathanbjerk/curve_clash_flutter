@@ -1,12 +1,14 @@
-// lib/managers/audio_manager.dart
-
-import 'package:audioplayers/audioplayers.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class AudioManager {
-  static final AudioPlayer _player = AudioPlayer();
+  static final AudioManager instance = AudioManager._internal();
+  AudioManager._internal();
 
-  Future<void> play(String fileName) async {
-    final filePath = 'assets/audio/sfx/$fileName';
-    await _player.play(AssetSource(filePath));
+  Future<void> play(String file) async {
+    await FlameAudio.play('sfx/$file'); // 🔧 fjernet "audio/" prefix
+  }
+
+  Future<void> initialize() async {
+    await FlameAudio.bgm.initialize();
   }
 }

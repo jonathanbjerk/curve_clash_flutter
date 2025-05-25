@@ -1,44 +1,49 @@
-import 'package:curve_clash_flutter/curve_clash_game.dart';
-import 'package:curve_clash_flutter/player_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import '../curve_clash_game.dart';
+import '../constants/colors.dart';
 
 class StartOverlay extends StatelessWidget {
   final CurveClashGame game;
 
-  const StartOverlay({super.key, required this.game});
+  const StartOverlay({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/starfield.png',
+            fit: BoxFit.cover,
+          ),
+        ),
         Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/curve_clash_logo_offisiell.png',
-                width: 300,
-              ),
-              const SizedBox(height: 40),
-              SizedBox(
-                width: 180,
-                height: 50,
-                child: OutlinedButton(
-                  onPressed: () {
-                    game.overlayController.showCountdown();
-                  },
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/curve_clash_logo_offisiell.png',
+                  width: MediaQuery.of(context).size.width * 0.25,
+                ),
+                const SizedBox(height: 40),
+                OutlinedButton(
+                  onPressed: () => game.startCountdown(),
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: PlayerColors.p2, width: 2),
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.black, // 🟩 svart bakgrunn
+                    side: const BorderSide(color: AppColors.p2, width: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                   ),
                   child: const Text(
                     'Start',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

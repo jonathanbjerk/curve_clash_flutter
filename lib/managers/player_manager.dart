@@ -1,42 +1,36 @@
+import 'dart:math';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
-import '../components/player_component.dart';
 import '../curve_clash_game.dart';
-
-class PlayerColors {
-  static const p1 = Color(0xFF00FFFF);
-  static const p2 = Color(0xFFFF00FF);
-}
+import '../components/snake.dart';
 
 class PlayerManager extends Component {
+  Vector2? lastStartPosition;
   final CurveClashGame game;
-
-  late CurvePlayer p1;
-  late CurvePlayer p2;
-
-  int p1Score = 0;
-  int p2Score = 0;
 
   PlayerManager(this.game);
 
-  void spawnPlayers() {
-    p1 = CurvePlayer(
-      playerId: 1,
-      startPosition: Vector2(100, 300),
-      color: PlayerColors.p1,
-    );
-
-    p2 = CurvePlayer(
-      playerId: 2,
-      startPosition: Vector2(700, 300),
-      color: PlayerColors.p2,
-    );
-
-    addAll([p1, p2]);
+  void removePlayers() {
+    children.whereType<Snake>().forEach(remove);
   }
 
-  void reset() {
-    removeAll(children);
-    spawnPlayers();
+  void spawnPlayers() {
+    final margin = 50.0;
+    final rand = Random();
+    lastStartPosition = Vector2(
+      margin + rand.nextDouble() * (game.size.x - 2 * margin),
+      margin + rand.nextDouble() * (game.size.y - 2 * margin),
+    );
+    final angle = rand.nextDouble() * 2 * pi;
+
+    print("🧪 Spawner slange på: $lastStartPosition med vinkel $angle");
+
+    final snake = Snake(startPosition: lastStartPosition!, initialAngle: angle);
+    add(snake);
+  }
+
+  void activateAllSnakes() {
+    for (final snake in children.whereType<Snake>()) {
+      snake.active = true;
+    }
   }
 }

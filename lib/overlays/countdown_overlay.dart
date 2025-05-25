@@ -1,18 +1,19 @@
-import 'package:curve_clash_flutter/curve_clash_game.dart';
-import 'package:curve_clash_flutter/managers/audio_manager.dart';
 import 'package:flutter/material.dart';
+import '../curve_clash_game.dart';
+import '../constants/colors.dart';
+import '../managers/audio_manager.dart';
 
 class CountdownOverlay extends StatefulWidget {
   final CurveClashGame game;
 
-  const CountdownOverlay({super.key, required this.game});
+  const CountdownOverlay({Key? key, required this.game}) : super(key: key);
 
   @override
   State<CountdownOverlay> createState() => _CountdownOverlayState();
 }
 
 class _CountdownOverlayState extends State<CountdownOverlay> {
-  int countdown = 3;
+  int counter = 3;
 
   @override
   void initState() {
@@ -20,26 +21,31 @@ class _CountdownOverlayState extends State<CountdownOverlay> {
     _startCountdown();
   }
 
-  Future<void> _startCountdown() async {
-    while (countdown > 0) {
+  void _startCountdown() async {
+    while (counter > 0) {
       await AudioManager.instance.play('count.wav');
-      setState(() => countdown--);
       await Future.delayed(const Duration(seconds: 1));
+      setState(() {
+        counter--;
+      });
     }
 
     await AudioManager.instance.play('go.wav');
+    setState(() {}); // vis "GO!"
+    await Future.delayed(const Duration(milliseconds: 600)); // la det stå en liten stund
+
+    widget.game.overlays.remove('CountdownOverlay');
     widget.game.startRound();
-    widget.game.overlays.remove('countdown');
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        countdown == 0 ? "GO!" : countdown.toString(),
-        style: const TextStyle(
-          fontSize: 100,
-          color: Colors.white,
+        counter > 0 ? '$counter' : 'GO!',
+        style: TextStyle(
+          fontSize: 64,
+          color: counter > 0 ? Colors.white : AppColors.p3, // neongrønn
           fontWeight: FontWeight.bold,
         ),
       ),

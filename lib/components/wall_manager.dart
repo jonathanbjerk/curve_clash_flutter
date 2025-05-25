@@ -1,13 +1,22 @@
 import 'package:flame/components.dart';
+import '../curve_clash_game.dart';
+import 'wall.dart';
 
-class WallManager extends Component {
+class WallManager extends Component with HasGameRef<CurveClashGame> {
+  final double thickness = 10.0;
+
   @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    // Add wall components to the game
-  }
+  void onMount() {
+    super.onMount();
 
-  void reset() {
-    // Remove or reset wall state
+    final width = gameRef.size.x;
+    final height = gameRef.size.y;
+
+    addAll([
+      Wall(position: Vector2(0, 0), size: Vector2(width, thickness)), // topp
+      Wall(position: Vector2(0, height - thickness), size: Vector2(width, thickness)), // bunn
+      Wall(position: Vector2(0, 0), size: Vector2(thickness, height)), // venstre
+      Wall(position: Vector2(width - thickness, 0), size: Vector2(thickness, height)), // høyre
+    ]);
   }
 }
