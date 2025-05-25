@@ -1,0 +1,23 @@
+name: Lint & Format
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: Flutter Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Format check
+        run: flutter format --set-exit-if-changed .
+
+      - name: Analyze
+        run: flutter analyze
