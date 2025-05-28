@@ -1,5 +1,6 @@
-name: curve_clash
-description: A prototype of Curve Clash that starts directly in gameplay.
+name: curve_clash_flutter
+description: Multiplayer snake game inspired by Achtung, die Kurve!
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -8,7 +9,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame: ^1.17.0
+  flame: ^1.29.0
+  flame_audio: ^2.11.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/audio/sfx/
+    - assets/images/curve_clash_logo_offisiell.png
+    - assets/images/starfield.png
